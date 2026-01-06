@@ -1024,7 +1024,7 @@ export function LoginPage() {
 
   return (
     // FIX 1: Added min-w-[1280px] to force desktop width on all devices
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans min-w-[1280px]">
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans overflow-x-hidden pb-24">
       
      {/* --- HERO BANNER --- */}
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6 pt-4 md:pt-6">
@@ -1320,11 +1320,11 @@ export function LoginPage() {
         </div>
       </div>
 
-      {/* --- FOOTER --- */}
-      <footer className="bg-black text-white text-center py-6 px-4 text-sm border-t-4 border-blue-800 mt-auto">
-        <div className="flex flex-col gap-2">
+     {/* --- FOOTER (FIXED AT BOTTOM) --- */}
+      <footer className="fixed bottom-0 left-0 w-full bg-black text-white text-center py-4 px-4 text-xs md:text-sm border-t-4 border-blue-800 z-50 shadow-2xl">
+        <div className="flex flex-col gap-1 md:gap-2 max-w-[1440px] mx-auto">
           <p className="font-semibold tracking-wide">© 2026 Teegala Krishna Reddy Engineering College, All Rights Reserved.</p>
-          <p className="text-gray-400">Designed, Developed & Maintenance  under the Guidance of Dr. B. Srinivasa Rao (Dean Academics)</p>
+          <p className="text-gray-400 text-[10px] md:text-xs">Designed, Developed & Maintenance under the Guidance of Dr. B. Srinivasa Rao (Dean Academics)</p>
         </div>
       </footer>
 

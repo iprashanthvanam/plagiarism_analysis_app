@@ -895,8 +895,6 @@
 
 
 
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -952,18 +950,18 @@ const OrientationSlider = () => {
                 className="w-full h-full object-cover opacity-90"
                 onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1920&auto=format&fit=crop"; }}
             />
-            <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/50 to-transparent p-4 md:p-6 text-white text-center">
-              <h3 className="text-lg md:text-2xl font-bold tracking-wide shadow-black drop-shadow-md">{slide.text}</h3>
+            <div className="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/50 to-transparent p-6 text-white text-center">
+              <h3 className="text-2xl font-bold tracking-wide shadow-black drop-shadow-md">{slide.text}</h3>
             </div>
           </div>
         ))}
       </div>
       
-      <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 p-2 md:p-3 rounded-full text-white transition-all z-10 backdrop-blur-sm">
-        <ChevronLeft size={20} className="md:w-7 md:h-7" />
+      <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 p-3 rounded-full text-white transition-all z-10 backdrop-blur-sm">
+        <ChevronLeft size={28} />
       </button>
-      <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 p-2 md:p-3 rounded-full text-white transition-all z-10 backdrop-blur-sm">
-        <ChevronRight size={20} className="md:w-7 md:h-7" />
+      <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 p-3 rounded-full text-white transition-all z-10 backdrop-blur-sm">
+        <ChevronRight size={28} />
       </button>
     </div>
   );
@@ -972,7 +970,7 @@ const OrientationSlider = () => {
 // --- Delegate Card ---
 const DelegateCard = ({ name, role, img }: { name: string, role: string, img: string }) => (
   <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center p-4 border border-blue-900 h-full">
-    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-blue-900 mb-3 shadow-inner shrink-0">
+    <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-900 mb-3 shadow-inner shrink-0">
       <img 
         src={img} 
         alt={name} 
@@ -981,10 +979,10 @@ const DelegateCard = ({ name, role, img }: { name: string, role: string, img: st
       />
     </div>
     <div className="text-center w-full flex flex-col justify-between flex-1">
-      <div className="bg-black text-white py-1 px-2 md:px-4 rounded-full text-xs md:text-sm font-bold uppercase mb-2 shadow-md inline-block mx-auto">
+      <div className="bg-black text-white py-1 px-4 rounded-full text-sm font-bold uppercase mb-2 shadow-md inline-block mx-auto">
         {name}
       </div>
-      <p className="text-blue-900 text-[10px] md:text-xs font-bold tracking-wider">{role}</p>
+      <p className="text-blue-900 text-xs font-bold tracking-wider">{role}</p>
     </div>
   </div>
 );
@@ -1030,38 +1028,40 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans overflow-x-hidden">
+    // FIX 1: Added min-w-[1280px] to force desktop width on all devices
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans min-w-[1280px]">
       
       {/* --- HERO BANNER --- */}
-      <div className="relative w-full h-[150px] sm:h-[200px] md:h-[250px]">
+      {/* FIX 2: Fixed height to desktop size */}
+      <div className="relative w-full h-[250px]">
         <img 
           src="/assets/logo.jpg" 
           alt="College Campus" 
           className="w-full h-full object-cover"
           onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop"; }}
         />
-        {/* Overlay for better text contrast if needed later */}
         <div className="absolute inset-0 bg-black/10"></div>
       </div>
 
       {/* --- TOP SECTION (SLIDER + LOGIN) --- */}
-      <div className="w-full max-w-[1440px] mx-auto p-4 md:p-6">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="w-full max-w-[1440px] mx-auto p-6">
+        {/* FIX 3: Removed lg: prefix, forced grid-cols-4 */}
+        <div className="w-full grid grid-cols-4 gap-6">
           
-          {/* LEFT: ORIENTATION SLIDER (Occupies 3 columns on LG) */}
-          {/* Responsive Height: 250px on mobile, 600px on desktop */}
-          <div className="lg:col-span-3 h-[250px] sm:h-[400px] lg:h-[650px]">
+          {/* LEFT: ORIENTATION SLIDER (Occupies 3 columns) */}
+          {/* FIX 4: Fixed height to 650px */}
+          <div className="col-span-3 h-[650px]">
             <OrientationSlider />
           </div>
 
-          {/* RIGHT: LOGIN & LINKS (Occupies 1 column on LG) */}
-          <div className="lg:col-span-1 flex flex-col gap-4">
+          {/* RIGHT: LOGIN & LINKS (Occupies 1 column) */}
+          <div className="col-span-1 flex flex-col gap-4">
             
             {/* LOGIN BOX */}
-            <div className="bg-black border-2 border-blue-600 rounded-lg p-5 md:p-6 shadow-2xl text-white">
-              <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 border-b-2 border-blue-900 pb-3 tracking-widest">PLAGIARISM</h2>
+            <div className="bg-black border-2 border-blue-600 rounded-lg p-6 shadow-2xl text-white">
+              <h2 className="text-3xl font-bold text-center mb-6 border-b-2 border-blue-900 pb-3 tracking-widest">PLAGIARISM</h2>
               
-              <form onSubmit={handleLogin} className="space-y-4 md:space-y-5">
+              <form onSubmit={handleLogin} className="space-y-5">
                 <div>
                   <label className="block text-xs uppercase text-blue-400 mb-1 font-bold">Select Role</label>
                   <select 
@@ -1120,7 +1120,7 @@ export function LoginPage() {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full bg-blue-700 hover:bg-blue-600 text-white font-bold py-3 rounded uppercase tracking-wider transition-all shadow-lg hover:shadow-blue-500/50 mt-2 text-sm md:text-base"
+                  className="w-full bg-blue-700 hover:bg-blue-600 text-white font-bold py-3 rounded uppercase tracking-wider transition-all shadow-lg hover:shadow-blue-500/50 mt-2 text-base"
                 >
                   {isSubmitting ? 'Verifying...' : 'LOGIN'}
                 </button>
@@ -1135,7 +1135,7 @@ export function LoginPage() {
                   href="https://tkrec.in/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white py-2.5 rounded text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="w-full bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white py-3 rounded text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
                 >
                   <ExternalLink size={16} /> MS PORTAL
                 </a>
@@ -1143,7 +1143,7 @@ export function LoginPage() {
                   href="https://tkrecautonomous.org/Login.aspx" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white py-2.5 rounded text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="w-full bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white py-3 rounded text-sm font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
                 >
                   <ExternalLink size={16} /> BET PORTAL
                 </a>
@@ -1155,33 +1155,35 @@ export function LoginPage() {
       </div>
 
       {/* --- NOTIFICATIONS MARQUEE --- */}
-      <div className="w-full bg-white px-2 md:px-6 pb-6">
-        <div className="w-full bg-black border-y-4 border-blue-700 h-12 md:h-16 flex relative overflow-hidden shadow-2xl z-20">
-          <div className="bg-blue-700 text-white px-3 md:px-6 h-full flex items-center justify-center font-bold text-xs md:text-lg tracking-widest shadow-lg shrink-0 z-20">
+      <div className="w-full bg-white px-6 pb-6">
+        <div className="w-full bg-black border-y-4 border-blue-700 h-16 flex relative overflow-hidden shadow-2xl z-20">
+          <div className="bg-blue-700 text-white px-6 h-full flex items-center justify-center font-bold text-lg tracking-widest shadow-lg shrink-0 z-20">
             NOTIFICATIONS
           </div>
           <div className="flex-1 flex items-center overflow-hidden bg-black/90 h-full relative">
-             <div className="animate-marquee whitespace-nowrap flex gap-8 md:gap-16 items-center h-full pl-4">
-               <span className="text-white text-sm md:text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
-               <span className="text-yellow-400 text-sm md:text-lg font-medium flex items-center gap-2">📢 CAMPUS PLACEMENT DRIVE: INFOSYS RECRUITMENT ON JAN 10</span>
-               <span className="text-white text-sm md:text-lg font-medium flex items-center gap-2">📢 MBA I SEMESTER REGISTRATIONS OPEN NOW</span>
-               <span className="text-green-400 text-sm md:text-lg font-medium flex items-center gap-2">📢 CONGRATULATIONS TO TOPPERS OF 2024 BATCH</span>
-               <span className="text-white text-sm md:text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
+             <div className="animate-marquee whitespace-nowrap flex gap-16 items-center h-full pl-4">
+               <span className="text-white text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
+               <span className="text-yellow-400 text-lg font-medium flex items-center gap-2">📢 CAMPUS PLACEMENT DRIVE: INFOSYS RECRUITMENT ON JAN 10</span>
+               <span className="text-white text-lg font-medium flex items-center gap-2">📢 MBA I SEMESTER REGISTRATIONS OPEN NOW</span>
+               <span className="text-green-400 text-lg font-medium flex items-center gap-2">📢 CONGRATULATIONS TO TOPPERS OF 2024 BATCH</span>
+               <span className="text-white text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
              </div>
           </div>
         </div>
       </div>
 
       {/* ================= COMBINED BOTTOM SECTION ================= */}
-      <div className="w-full max-w-[1440px] mx-auto pb-12 px-4 md:px-6">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="w-full max-w-[1440px] mx-auto pb-12 px-6">
+        {/* FIX 5: Forced grid-cols-4 (No responsive changing) */}
+        <div className="w-full grid grid-cols-4 gap-6">
           
           {/* --- LEFT COLUMN: CONTENT (About + Delegates) --- */}
-          <div className="lg:col-span-3 flex flex-col gap-8 md:gap-12">
+          <div className="col-span-3 flex flex-col gap-12">
              
              {/* 1. ABOUT / VISION / MISSION */}
              <div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* FIX 6: Forced grid-cols-4 */}
+                <div className="grid grid-cols-4 gap-4">
                     <InfoBox title="About Us">
                         <h3 className="font-bold text-base mb-2 text-center text-blue-900 border-b border-blue-200 pb-1">
                           TKR Engineering College
@@ -1230,11 +1232,11 @@ export function LoginPage() {
 
              {/* 2. DELEGATES SECTION */}
              <div>
-                <div className="bg-black text-white px-4 md:px-8 py-3 inline-block mb-6 md:mb-8 rounded-r-full border-l-8 border-white shadow-lg">
-                   <h2 className="text-sm md:text-xl font-bold uppercase tracking-widest">Our Management Delegates</h2>
+                <div className="bg-black text-white px-8 py-3 inline-block mb-8 rounded-r-full border-l-8 border-white shadow-lg">
+                   <h2 className="text-xl font-bold uppercase tracking-widest">Our Management Delegates</h2>
                 </div>
-                {/* Responsive Grid for Delegates */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                {/* FIX 7: Forced grid-cols-5 */}
+                <div className="grid grid-cols-5 gap-6">
                   <DelegateCard name="Sir T. Krishna Reddy" role="Chairman & Founder TKRES" img="/delegates/tkrcet-chairman.webp" />
                   <DelegateCard name="Sri. T. Harinath Reddy" role="Secretary, TKRES" img="/delegates/tkrcet-secretary.webp" />
                   <DelegateCard name="Sri. T. Amaranath Reddy" role="Treasurer, TKRES" img="/delegates/tkres-treasurer.webp" />
@@ -1245,9 +1247,9 @@ export function LoginPage() {
 
           </div>
           
-          {/* --- RIGHT COLUMN: CONTACT INFO (Sidebar on Desktop, Bottom on Mobile) --- */}
-          {/* Removed 'hidden', changed display logic to standard grid/flex behavior */}
-          <div className="flex lg:col-span-1 flex-col h-full">
+          {/* --- RIGHT COLUMN: CONTACT INFO --- */}
+          {/* FIX 8: Removed 'hidden' and flex display logic to stay as sidebar */}
+          <div className="col-span-1 flex flex-col h-full">
             <div className="bg-black border-2 border-blue-600 rounded-lg p-4 shadow-xl flex flex-col h-full">
               <h3 className="text-white font-bold mb-6 border-b border-gray-700 pb-2 text-sm uppercase tracking-wider flex items-center gap-2">
                   Reach Us
@@ -1297,7 +1299,7 @@ export function LoginPage() {
                   href="https://maps.google.com/?q=TKREC+Hyderabad" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="mt-4 border border-gray-700 rounded overflow-hidden flex-1 min-h-[200px] lg:min-h-[250px] relative group cursor-pointer block bg-gray-900"
+                  className="mt-4 border border-gray-700 rounded overflow-hidden flex-1 min-h-[250px] relative group cursor-pointer block bg-gray-900"
                 >
                   <img 
                     src="/assets/Meerpet.webp" 
@@ -1320,7 +1322,7 @@ export function LoginPage() {
       </div>
 
       {/* --- FOOTER --- */}
-      <footer className="bg-black text-white text-center py-6 px-4 text-xs md:text-sm border-t-4 border-blue-800 mt-auto">
+      <footer className="bg-black text-white text-center py-6 px-4 text-sm border-t-4 border-blue-800 mt-auto">
         <div className="flex flex-col gap-2">
           <p className="font-semibold tracking-wide">© 2026 Teegala Krishna Reddy Engineering College, All Rights Reserved.</p>
           <p className="text-gray-400">Designed, Developed & Maintenance  under the Guidance of Dr. B. Srinivasa Rao (Dean Academics)</p>

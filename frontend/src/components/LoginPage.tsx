@@ -1028,11 +1028,9 @@ export function LoginPage() {
   };
 
   return (
-    // REMOVED min-w-[1280px]. Now it adapts to phone width naturally.
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans overflow-x-hidden">
       
       {/* --- HERO BANNER --- */}
-      {/* Height grows on desktop (md/lg), shrinks on mobile */}
       <div className="relative w-full h-[150px] md:h-[250px]">
         <img 
           src="/assets/logo.jpg" 
@@ -1045,19 +1043,14 @@ export function LoginPage() {
 
       {/* --- TOP SECTION (SLIDER + LOGIN) --- */}
       <div className="w-full max-w-[1440px] mx-auto p-4 md:p-6">
-        
-        {/* RESPONSIVE GRID: 1 column on mobile, 4 columns on desktop (lg) */}
         <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
           
           {/* LEFT: ORIENTATION SLIDER */}
-          {/* Responsive Span: Full width mobile, 3 cols desktop */}
-          {/* Responsive Height: 250px mobile, 400px tablet, 650px desktop */}
           <div className="lg:col-span-3 h-[250px] sm:h-[400px] lg:h-[650px]">
             <OrientationSlider />
           </div>
 
           {/* RIGHT: LOGIN & LINKS */}
-          {/* Responsive Span: Full width mobile, 1 col desktop */}
           <div className="lg:col-span-1 flex flex-col gap-4">
             
             {/* LOGIN BOX */}
@@ -1157,7 +1150,7 @@ export function LoginPage() {
         </div>
       </div>
 
-     {/* --- NOTIFICATIONS MARQUEE (FIXED ALIGNMENT) --- */}
+      {/* --- NOTIFICATIONS MARQUEE (FIXED ALIGNMENT) --- */}
       <div className="w-full bg-white pb-6">
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6">
           <div className="w-full bg-black border-y-4 border-blue-700 h-12 md:h-16 flex relative overflow-hidden shadow-2xl z-20">
@@ -1179,7 +1172,6 @@ export function LoginPage() {
 
       {/* ================= COMBINED BOTTOM SECTION ================= */}
       <div className="w-full max-w-[1440px] mx-auto pb-12 px-4 md:px-6">
-        {/* RESPONSIVE GRID: 1 col mobile -> 4 cols desktop (lg) */}
         <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
           
           {/* --- LEFT COLUMN: CONTENT (About + Delegates) --- */}
@@ -1187,7 +1179,6 @@ export function LoginPage() {
              
              {/* 1. ABOUT / VISION / MISSION */}
              <div>
-                {/* 1 col mobile -> 2 col tablet -> 4 col desktop */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <InfoBox title="About Us">
                         <h3 className="font-bold text-base mb-2 text-center text-blue-900 border-b border-blue-200 pb-1">
@@ -1240,7 +1231,6 @@ export function LoginPage() {
                 <div className="bg-black text-white px-4 md:px-8 py-3 inline-block mb-6 md:mb-8 rounded-r-full border-l-8 border-white shadow-lg">
                    <h2 className="text-sm md:text-xl font-bold uppercase tracking-widest">Our Management Delegates</h2>
                 </div>
-                {/* 2 cols mobile -> 3 cols tablet -> 5 cols desktop */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
                   <DelegateCard name="Sir T. Krishna Reddy" role="Chairman & Founder TKRES" img="/delegates/tkrcet-chairman.webp" />
                   <DelegateCard name="Sri. T. Harinath Reddy" role="Secretary, TKRES" img="/delegates/tkrcet-secretary.webp" />
@@ -1252,7 +1242,7 @@ export function LoginPage() {
 
           </div>
           
-          {/* --- RIGHT COLUMN: CONTACT INFO (Sidebar) --- */}
+          {/* --- RIGHT COLUMN: CONTACT INFO --- */}
           <div className="flex lg:col-span-1 flex-col h-full">
             <div className="bg-black border-2 border-blue-600 rounded-lg p-4 shadow-xl flex flex-col h-full">
               <h3 className="text-white font-bold mb-6 border-b border-gray-700 pb-2 text-sm uppercase tracking-wider flex items-center gap-2">

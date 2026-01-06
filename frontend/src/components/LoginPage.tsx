@@ -893,8 +893,6 @@
 
 
 
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -1031,30 +1029,33 @@ export function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans overflow-x-hidden">
       
       {/* --- HERO BANNER --- */}
+      {/* FIX: Added max-w wrapper so it matches the grid below */}
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6 pt-4 md:pt-6">
         <div className="relative w-full h-auto overflow-hidden rounded-lg shadow-md">
+          {/* FIX: Removed fixed height, added h-auto so it doesn't zoom/crop */}
           <img 
             src="/assets/logo.jpg" 
             alt="College Campus" 
             className="w-full h-auto object-contain"
             onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop"; }}
           />
-          {/* Optional Overlay - removed or made lighter so it doesn't obscure text */}
-          <div className="absolute inset-0 bg-black/5"></div>
         </div>
       </div>
 
       {/* --- TOP SECTION (SLIDER + LOGIN) --- */}
       <div className="w-full max-w-[1440px] mx-auto p-4 md:p-6">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* FIX: Changed lg:grid-cols-4 to md:grid-cols-4. This triggers desktop layout sooner (for mobile desktop mode) */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6">
           
           {/* LEFT: ORIENTATION SLIDER */}
-          <div className="lg:col-span-3 h-[250px] sm:h-[400px] lg:h-[650px]">
+          {/* FIX: Changed lg:col-span-3 to md:col-span-3 */}
+          <div className="md:col-span-3 h-[250px] sm:h-[400px] lg:h-[650px]">
             <OrientationSlider />
           </div>
 
           {/* RIGHT: LOGIN & LINKS */}
-          <div className="lg:col-span-1 flex flex-col gap-4">
+          {/* FIX: Changed lg:col-span-1 to md:col-span-1 */}
+          <div className="md:col-span-1 flex flex-col gap-4">
             
             {/* LOGIN BOX */}
             <div className="bg-black border-2 border-blue-600 rounded-lg p-5 md:p-6 shadow-2xl text-white">
@@ -1175,14 +1176,17 @@ export function LoginPage() {
 
       {/* ================= COMBINED BOTTOM SECTION ================= */}
       <div className="w-full max-w-[1440px] mx-auto pb-12 px-4 md:px-6">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* FIX: Changed lg:grid-cols-4 to md:grid-cols-4 */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-6">
           
           {/* --- LEFT COLUMN: CONTENT (About + Delegates) --- */}
-          <div className="lg:col-span-3 flex flex-col gap-8 md:gap-12">
+          {/* FIX: Changed lg:col-span-3 to md:col-span-3 */}
+          <div className="md:col-span-3 flex flex-col gap-8 md:gap-12">
              
              {/* 1. ABOUT / VISION / MISSION */}
              <div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* FIX: Changed lg:grid-cols-4 to md:grid-cols-4 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <InfoBox title="About Us">
                         <h3 className="font-bold text-base mb-2 text-center text-blue-900 border-b border-blue-200 pb-1">
                           TKR Engineering College
@@ -1234,7 +1238,8 @@ export function LoginPage() {
                 <div className="bg-black text-white px-4 md:px-8 py-3 inline-block mb-6 md:mb-8 rounded-r-full border-l-8 border-white shadow-lg">
                    <h2 className="text-sm md:text-xl font-bold uppercase tracking-widest">Our Management Delegates</h2>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+                {/* FIX: Changed lg:grid-cols-5 to md:grid-cols-5 to fix the 2x2 stacking in desktop mode */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
                   <DelegateCard name="Sir T. Krishna Reddy" role="Chairman & Founder TKRES" img="/delegates/tkrcet-chairman.webp" />
                   <DelegateCard name="Sri. T. Harinath Reddy" role="Secretary, TKRES" img="/delegates/tkrcet-secretary.webp" />
                   <DelegateCard name="Sri. T. Amaranath Reddy" role="Treasurer, TKRES" img="/delegates/tkres-treasurer.webp" />
@@ -1246,7 +1251,8 @@ export function LoginPage() {
           </div>
           
           {/* --- RIGHT COLUMN: CONTACT INFO --- */}
-          <div className="flex lg:col-span-1 flex-col h-full">
+          {/* FIX: Changed lg:col-span-1 to md:col-span-1 */}
+          <div className="flex md:col-span-1 flex-col h-full">
             <div className="bg-black border-2 border-blue-600 rounded-lg p-4 shadow-xl flex flex-col h-full">
               <h3 className="text-white font-bold mb-6 border-b border-gray-700 pb-2 text-sm uppercase tracking-wider flex items-center gap-2">
                   Reach Us

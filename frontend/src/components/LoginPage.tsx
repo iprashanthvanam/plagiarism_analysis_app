@@ -1151,20 +1151,22 @@ export function LoginPage() {
         </div>
       </div>
 
-      {/* --- NOTIFICATIONS MARQUEE --- */}
-      <div className="w-full bg-white px-6 pb-6">
-        <div className="w-full bg-black border-y-4 border-blue-700 h-16 flex relative overflow-hidden shadow-2xl z-20">
-          <div className="bg-blue-700 text-white px-6 h-full flex items-center justify-center font-bold text-lg tracking-widest shadow-lg shrink-0 z-20">
-            NOTIFICATIONS
-          </div>
-          <div className="flex-1 flex items-center overflow-hidden bg-black/90 h-full relative">
-             <div className="animate-marquee whitespace-nowrap flex gap-16 items-center h-full pl-4">
-               <span className="text-white text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
-               <span className="text-yellow-400 text-lg font-medium flex items-center gap-2">📢 CAMPUS PLACEMENT DRIVE: INFOSYS RECRUITMENT ON JAN 10</span>
-               <span className="text-white text-lg font-medium flex items-center gap-2">📢 MBA I SEMESTER REGISTRATIONS OPEN NOW</span>
-               <span className="text-green-400 text-lg font-medium flex items-center gap-2">📢 CONGRATULATIONS TO TOPPERS OF 2024 BATCH</span>
-               <span className="text-white text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
-             </div>
+     {/* --- NOTIFICATIONS MARQUEE (FIXED ALIGNMENT) --- */}
+      <div className="w-full bg-white pb-6">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6">
+          <div className="w-full bg-black border-y-4 border-blue-700 h-12 md:h-16 flex relative overflow-hidden shadow-2xl z-20">
+            <div className="bg-blue-700 text-white px-3 md:px-6 h-full flex items-center justify-center font-bold text-xs md:text-lg tracking-widest shadow-lg shrink-0 z-20">
+              NOTIFICATIONS
+            </div>
+            <div className="flex-1 flex items-center overflow-hidden bg-black/90 h-full relative">
+               <div className="animate-marquee whitespace-nowrap flex gap-8 md:gap-16 items-center h-full pl-4">
+                 <span className="text-white text-sm md:text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
+                 <span className="text-yellow-400 text-sm md:text-lg font-medium flex items-center gap-2">📢 CAMPUS PLACEMENT DRIVE: INFOSYS RECRUITMENT ON JAN 10</span>
+                 <span className="text-white text-sm md:text-lg font-medium flex items-center gap-2">📢 MBA I SEMESTER REGISTRATIONS OPEN NOW</span>
+                 <span className="text-green-400 text-sm md:text-lg font-medium flex items-center gap-2">📢 CONGRATULATIONS TO TOPPERS OF 2024 BATCH</span>
+                 <span className="text-white text-sm md:text-lg font-medium flex items-center gap-2">📢 R25 BTECH II-I MID II EXAMS SCHEDULED FOR DEC 2025</span>
+               </div>
+            </div>
           </div>
         </div>
       </div>

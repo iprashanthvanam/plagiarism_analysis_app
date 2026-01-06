@@ -1026,16 +1026,18 @@ export function LoginPage() {
     // FIX 1: Added min-w-[1280px] to force desktop width on all devices
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans min-w-[1280px]">
       
-      {/* --- HERO BANNER --- */}
-      {/* FIX 2: Fixed height to desktop size */}
-      <div className="relative w-full h-[250px]">
-        <img 
-          src="/assets/logo.jpg" 
-          alt="College Campus" 
-          className="w-full h-full object-cover"
-          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop"; }}
-        />
-        <div className="absolute inset-0 bg-black/10"></div>
+     {/* --- HERO BANNER --- */}
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6 pt-4 md:pt-6">
+        <div className="relative w-full h-auto overflow-hidden rounded-lg shadow-md">
+          <img 
+            src="/assets/logo.jpg" 
+            alt="College Campus" 
+            className="w-full h-auto object-contain"
+            onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop"; }}
+          />
+          {/* Optional Overlay - removed or made lighter so it doesn't obscure text */}
+          <div className="absolute inset-0 bg-black/5"></div>
+        </div>
       </div>
 
       {/* --- TOP SECTION (SLIDER + LOGIN) --- */}

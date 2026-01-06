@@ -218,246 +218,267 @@
 
 
 
-
-
-
-
-
-
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'; // Ensure you have these components or replace with standard divs
-import { FileText, LogOut, Download, Eye, User, BarChart } from 'lucide-react';
-import api from '@/lib/api';
-import { useAuth } from '@/contexts/AuthContext';
-import { FileUploadAnalysis } from './FileUploadAnalysis';
-import { generateAndDownloadReport } from "@/lib/reportGenerator";
-
-/* ========================================================================
-   TYPES
-   ======================================================================== */
-interface DocumentEntry {
-  id: number;
-  file_name: string;
-  upload_date: string;
-}
+import React, { useState } from 'react';
+import { 
+  LayoutDashboard, 
+  FileText, 
+  UploadCloud, 
+  Settings, 
+  LogOut, 
+  Menu, 
+  X, 
+  Bell, 
+  Search, 
+  CheckCircle, 
+  AlertTriangle, 
+  Clock 
+} from 'lucide-react';
 
 /* ========================================================================
-   STUDENT DASHBOARD COMPONENT
+   1. INTERNAL UI COMPONENTS
    ======================================================================== */
-export function StudentDashboard() {
-  const { user, logout, loading } = useAuth();
-  const navigate = useNavigate();
 
-  const [documents, setDocuments] = useState<DocumentEntry[]>([]);
-  const [docsLoading, setDocsLoading] = useState(true);
+// --- Stat Card (Modern White with Soft Shadow) ---
+const StatCard = ({ title, value, icon: Icon, colorClass }: { title: string, value: string, icon: any, colorClass: string }) => (
+  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 flex items-center gap-4">
+    <div className={`p-4 rounded-xl ${colorClass} bg-opacity-10`}>
+      <Icon className={`w-6 h-6 ${colorClass.replace('bg-', 'text-')}`} />
+    </div>
+    <div>
+      <p className="text-slate-500 text-xs font-bold uppercase tracking-wider">{title}</p>
+      <h3 className="text-2xl font-bold text-slate-800 mt-1">{value}</h3>
+    </div>
+  </div>
+);
 
-  // --- FETCH DOCUMENTS ---
-  useEffect(() => {
-    const fetchStudentDocs = async () => {
-      try {
-        setDocsLoading(true);
-        const res = await api.get("/student/dashboard");
-        setDocuments(res.data);
-      } catch (err) {
-        console.error("Error fetching documents:", err);
-      } finally {
-        setDocsLoading(false);
-      }
-    };
-    fetchStudentDocs();
-  }, []);
+// --- Status Badge ---
+const StatusBadge = ({ status, score }: { status: 'Safe' | 'Warning' | 'Copied' | 'Pending', score: number }) => {
+  let styles = "";
+  let icon = null;
 
-  // --- AUTH CHECK ---
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-white text-xl font-bold tracking-widest animate-pulse">CHECKING SESSION...</p>
-      </div>
-    );
+  if (status === 'Safe') {
+    styles = "bg-emerald-100 text-emerald-700 border-emerald-200";
+    icon = <CheckCircle size={14} />;
+  } else if (status === 'Warning') {
+    styles = "bg-amber-100 text-amber-700 border-amber-200";
+    icon = <AlertTriangle size={14} />;
+  } else if (status === 'Copied') {
+    styles = "bg-red-100 text-red-700 border-red-200";
+    icon = <AlertTriangle size={14} />;
+  } else {
+    styles = "bg-slate-100 text-slate-600 border-slate-200";
+    icon = <Clock size={14} />;
   }
-
-  if (!user || user.role !== "student") {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="bg-black border-2 border-red-500 p-8 rounded text-white text-center">
-          <h2 className="text-2xl font-bold mb-2">ACCESS DENIED</h2>
-          <p>You are not authorized to view this page.</p>
-          <button onClick={() => navigate('/')} className="mt-4 bg-red-600 px-4 py-2 rounded">Go Back</button>
-        </div>
-      </div>
-    );
-  }
-
-  // --- HANDLERS ---
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
-
-  const handleView = async (id: number, fileName: string) => {
-    try {
-      const res = await api.get(`/files/original/${id}`, { responseType: "blob" });
-      const blob = new Blob([res.data]);
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Download failed", error);
-      alert("Failed to download file.");
-    }
-  };
-
-  const handleDownload = async (docId: number, fileName?: string) => {
-    try {
-      const res = await api.get(`/analysis-status/${docId}`);
-      generateAndDownloadReport(res.data.result, user.username, fileName);
-    } catch (error) {
-      console.error("Report generation failed", error);
-      alert("Failed to generate report.");
-    }
-  };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col font-sans">
-      
-      {/* --- HERO BANNER --- */}
-      <div className="relative w-full h-[300px] md:h-[150px]">
-        <img 
-          src="/assets/logo3.png" 
-          alt="College Campus" 
-          className="w-full h-full object-cover"
-          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop"; }}
-        />
-        {/* <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white p-4">
-          <h1 className="text-3xl md:text-5xl font-bold text-center drop-shadow-2xl uppercase tracking-wider">
-            Teegala Krishna Reddy Engineering College
-          </h1>
-          <p className="mt-3 text-lg md:text-xl font-light tracking-widest text-blue-200">
-            Where Knowledge Meets Innovation
-          </p>
-        </div> */}
+    <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${styles}`}>
+      {icon} {status} ({score}%)
+    </span>
+  );
+};
+
+/* ========================================================================
+   2. MAIN DASHBOARD COMPONENT
+   ======================================================================== */
+export default function StudentDashboard() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Mock Data for Recent Activity
+  const recentUploads = [
+    { id: 1, name: "Thesis_Final_Draft.pdf", date: "Jan 06, 2026", score: 12, status: "Safe" },
+    { id: 2, name: "Data_Structures_Lab.docx", date: "Jan 05, 2026", score: 45, status: "Warning" },
+    { id: 3, name: "History_Assignment_V1.pdf", date: "Jan 02, 2026", score: 8, status: "Safe" },
+    { id: 4, name: "Project_Proposal.pdf", date: "Dec 28, 2025", score: 88, status: "Copied" },
+  ];
+
+  return (
+    // MAIN CONTAINER: Slate-50 background for that clean "App" feel
+    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-800">
+
+      {/* ================= SIDEBAR (Responsive) ================= */}
+      {/* Mobile Top Bar */}
+      <div className="md:hidden bg-slate-900 text-white p-4 flex justify-between items-center shadow-md z-50 sticky top-0">
+        <div className="font-bold text-lg tracking-wider flex items-center gap-2">
+           <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">P</div>
+           PLAGIARISM
+        </div>
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X /> : <Menu />}
+        </button>
       </div>
 
-      {/* ================= MAIN CONTENT ================= */}
-      <div className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6">
-        
-        {/* --- HEADER --- */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <div className="bg-black text-white px-8 py-3 rounded-r-full border-l-8 border-white shadow-lg w-full md:w-auto">
-            <h2 className="text-xl font-bold uppercase tracking-widest flex items-center gap-2">
-              <User className="h-5 w-5 text-blue-500" /> Student Dashboard
-            </h2>
+      {/* Sidebar Content (Hidden on mobile unless toggled, Fixed on Desktop) */}
+      <aside className={`
+        fixed inset-0 z-40 bg-slate-900 text-slate-300 w-64 transform transition-transform duration-300 ease-in-out
+        md:relative md:translate-x-0 md:block
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:h-screen sticky top-0
+      `}>
+        <div className="p-6 h-full flex flex-col">
+          {/* Logo */}
+          <div className="hidden md:flex items-center gap-3 mb-10 text-white">
+            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl shadow-lg flex items-center justify-center font-bold text-xl">
+              P
+            </div>
+            <div>
+              <h1 className="font-bold text-lg tracking-wide leading-none">TKREC</h1>
+              <span className="text-[10px] text-slate-400 uppercase tracking-widest">Student Portal</span>
+            </div>
           </div>
-          <div className="text-white text-sm bg-blue-900/80 px-4 py-2 rounded border border-blue-500">
-            Logged in as: <span className="font-bold text-blue-200 uppercase">{user.username}</span>
+
+          {/* Navigation */}
+          <nav className="flex-1 space-y-2">
+            <a href="#" className="flex items-center gap-3 px-4 py-3 bg-indigo-600/10 text-indigo-400 border-r-2 border-indigo-500 rounded-r-sm font-medium transition-all">
+              <LayoutDashboard size={20} /> Dashboard
+            </a>
+            <a href="#" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800/50 hover:text-white rounded-lg transition-all">
+              <UploadCloud size={20} /> Upload Document
+            </a>
+            <a href="#" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800/50 hover:text-white rounded-lg transition-all">
+              <FileText size={20} /> My Reports
+            </a>
+            <a href="#" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800/50 hover:text-white rounded-lg transition-all">
+              <Settings size={20} /> Settings
+            </a>
+          </nav>
+
+          {/* User Profile Snippet */}
+          <div className="mt-auto pt-6 border-t border-slate-700">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-bold">
+                VP
+              </div>
+              <div>
+                <p className="text-white text-sm font-semibold">V. Prashanth</p>
+                <p className="text-xs text-slate-500">Student ID: 21R91A05K8</p>
+              </div>
+            </div>
+            <button className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-red-900/30 text-slate-300 hover:text-red-400 py-2 rounded-lg transition-colors text-sm font-medium">
+              <LogOut size={16} /> Logout
+            </button>
           </div>
         </div>
+      </aside>
 
-        {/* --- TABS CONTAINER --- */}
-        <div className="bg-black border-2 border-blue-600 rounded-lg p-6 shadow-2xl min-h-[600px]">
-          <Tabs defaultValue="your-data" className="w-full">
-            
-            {/* TABS LIST */}
-            <TabsList className="grid w-full grid-cols-3 bg-gray-900 border border-gray-700 p-1 rounded-md mb-6">
-              <TabsTrigger 
-                value="your-data" 
-                className="data-[state=active]:bg-blue-700 data-[state=active]:text-white text-gray-400 font-bold tracking-wide uppercase py-2 transition-all"
-              >
-                <FileText className="h-4 w-4 mr-2" /> My Documents
-              </TabsTrigger>
-              <TabsTrigger 
-                value="analysis" 
-                className="data-[state=active]:bg-blue-700 data-[state=active]:text-white text-gray-400 font-bold tracking-wide uppercase py-2 transition-all"
-              >
-                <BarChart className="h-4 w-4 mr-2" /> Analysis
-              </TabsTrigger>
-              <TabsTrigger
-                value="logout"
-                onClick={handleLogout}
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white text-red-400 font-bold tracking-wide uppercase py-2 transition-all hover:bg-red-900/50"
-              >
-                <LogOut className="h-4 w-4 mr-2" /> Logout
-              </TabsTrigger>
-            </TabsList>
+      {/* ================= MAIN CONTENT AREA ================= */}
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+        
+        {/* Header */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Welcome back, Prashanth 👋</h1>
+            <p className="text-slate-500 text-sm mt-1">Here is what's happening with your documents today.</p>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {/* Search Bar */}
+            <div className="hidden md:flex items-center bg-white px-3 py-2 rounded-lg border border-gray-200 shadow-sm focus-within:ring-2 focus-within:ring-indigo-100">
+              <Search size={18} className="text-slate-400" />
+              <input type="text" placeholder="Search reports..." className="ml-2 outline-none text-sm text-slate-600 w-48" />
+            </div>
+            {/* Notifications */}
+            <button className="relative p-2.5 bg-white rounded-lg border border-gray-200 text-slate-600 hover:text-indigo-600 shadow-sm transition-colors">
+              <Bell size={20} />
+              <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+          </div>
+        </header>
 
-            {/* TAB: YOUR DATA */}
-            <TabsContent value="your-data" className="space-y-6">
-              {docsLoading ? (
-                <div className="text-center py-20">
-                  <p className="text-blue-300 text-xl animate-pulse font-bold">LOADING DOCUMENTS...</p>
+        {/* Stats Grid */}
+        {/* Responsive: 1 col on mobile, 3 cols on desktop (md) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <StatCard title="Total Scans" value="24" icon={FileText} colorClass="bg-blue-500 text-blue-500" />
+          <StatCard title="Credits Left" value="8" icon={LayoutDashboard} colorClass="bg-indigo-500 text-indigo-500" />
+          <StatCard title="Avg. Uniqueness" value="88%" icon={CheckCircle} colorClass="bg-emerald-500 text-emerald-500" />
+        </div>
+
+        {/* Content Layout: Upload (Left) & Recent (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* --- UPLOAD SECTION (Takes 2 columns on large screens) --- */}
+          <div className="lg:col-span-2">
+            <div className="bg-white p-6 rounded-3xl shadow-lg border border-gray-100">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="font-bold text-lg text-slate-800">New Scan</h3>
+                <span className="text-xs font-semibold px-2 py-1 bg-indigo-50 text-indigo-600 rounded">Supports PDF, DOCX</span>
+              </div>
+
+              {/* Drag & Drop Zone */}
+              <div className="border-2 border-dashed border-indigo-100 rounded-2xl bg-slate-50 hover:bg-indigo-50/30 transition-colors cursor-pointer group flex flex-col items-center justify-center py-12 px-4">
+                <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <UploadCloud size={32} className="text-indigo-500" />
                 </div>
-              ) : documents.length === 0 ? (
-                <div className="text-center py-20 bg-gray-900/50 rounded border border-gray-700">
-                  <p className="text-gray-400 text-lg">You have not uploaded any documents yet.</p>
-                </div>
-              ) : (
-                <div className="grid gap-4">
-                  {documents.map((doc) => (
-                    <div 
-                      key={doc.id} 
-                      className="bg-gray-900/80 border border-blue-900/50 rounded-lg p-4 flex flex-col md:flex-row justify-between items-center hover:border-blue-500 transition-colors shadow-lg group"
-                    >
-                      <div className="mb-4 md:mb-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-gray-500 text-xs font-semibold">UPLOADED: {new Date(doc.upload_date).toLocaleString()}</span>
-                        </div>
-                        <h3 className="text-white font-bold text-lg group-hover:text-blue-300 transition-colors">{doc.file_name}</h3>
+                <p className="text-slate-700 font-medium mb-1">Click to upload or drag and drop</p>
+                <p className="text-slate-400 text-sm">Maximum file size 10MB</p>
+                <button className="mt-6 bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-lg shadow-slate-200 transition-all">
+                  Browse Files
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* --- RECENT ACTIVITY (Takes 1 column) --- */}
+          <div className="lg:col-span-1">
+            <div className="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 h-full">
+              <h3 className="font-bold text-lg text-slate-800 mb-6">Recent Reports</h3>
+              
+              <div className="space-y-4">
+                {recentUploads.map((file) => (
+                  <div key={file.id} className="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-colors border border-transparent hover:border-gray-100">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className="bg-slate-100 p-2.5 rounded-lg text-slate-500">
+                        <FileText size={20} />
                       </div>
-                      
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => handleView(doc.id, doc.file_name)}
-                          className="flex items-center gap-2 bg-transparent border border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white px-4 py-2 rounded text-sm font-bold transition-all uppercase"
-                        >
-                          <Eye size={16} /> View File
-                        </button>
-                        <button
-                          onClick={() => handleDownload(doc.id, doc.file_name)}
-                          className="flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold transition-all uppercase shadow-md"
-                        >
-                          <Download size={16} /> Get Report
-                        </button>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-slate-800 truncate">{file.name}</p>
+                        <p className="text-xs text-slate-400">{file.date}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </TabsContent>
-
-            {/* TAB: ANALYSIS */}
-            <TabsContent value="analysis">
-              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-                <h3 className="text-white font-bold text-lg mb-4 border-b border-gray-700 pb-2 uppercase text-blue-400">
-                  New Analysis Request
-                </h3>
-                <div className="text-white">
-                  <FileUploadAnalysis
-                    userType="student"
-                    userId={user?.id || ''}
-                    onAnalysisComplete={(result) => console.log('Analysis Complete:', result)}
-                  />
-                </div>
+                    <div className="shrink-0">
+                      <StatusBadge status={file.status as any} score={file.score} />
+                    </div>
+                  </div>
+                ))}
               </div>
-            </TabsContent>
 
-          </Tabs>
-        </div>
-      </div>
+              <button className="w-full mt-6 py-2.5 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition-colors">
+                View All Reports
+              </button>
+            </div>
+          </div>
 
-      {/* ================= FOOTER ================= */}
-      <footer className="bg-black text-white text-center py-6 text-sm border-t-4 border-blue-800 mt-auto">
-        <div className="flex flex-col gap-2">
-          <p className="font-semibold tracking-wide">© 2026 Teegala Krishna Reddy Engineering College, All Rights Reserved.</p>
-          <p className="text-gray-400">Designed, Developed & Maintenance  under the Guidance of Dr. B. Srinivasa Rao (Dean Academics)</p>
         </div>
-      </footer>
+      </main>
 
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

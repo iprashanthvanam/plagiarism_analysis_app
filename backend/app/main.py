@@ -126,9 +126,16 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
 # ===============================
 # CORS
 # ===============================
+origins = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "https://plagiarism-analysis-app.vercel.app",  # <--- THIS IS THE FIX
+    "https://plagiarism-analysis-app.onrender.com"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

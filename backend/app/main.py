@@ -331,8 +331,8 @@ async def login(
         key="access_token",
         value=token,
         httponly=True,          # 🔐 XSS-safe
-        secure=False,           # 🔁 True in production (HTTPS)
-        samesite="strict",
+        secure=True,           # 🔁 True in production (HTTPS)
+        samesite="none",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
     )
 

@@ -1734,6 +1734,27 @@ export function FileUploadAnalysis({ userType, userId, onAnalysisComplete }: Pro
     [onAnalysisComplete]
   );
 
+  // const analyzeFile = async (f: UploadedFile) => {
+  //   try {
+  //     setUploadedFiles(p =>
+  //       p.map(x => (x.id === f.id ? { ...x, status: "uploading", progress: 10 } : x))
+  //     );
+
+  //     const formData = new FormData();
+  //     formData.append("file", f.file);
+
+  //     const uploadRes = await api.post("/upload", formData, {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //       onUploadProgress: (e: any) => {
+  //         const percent = Math.round((e.loaded * 100) / (e.total || 1));
+  //         setUploadedFiles(p =>
+  //           p.map(x => (x.id === f.id ? { ...x, progress: percent } : x))
+  //         );
+  //       },
+  //     });
+
+
+
   const analyzeFile = async (f: UploadedFile) => {
     try {
       setUploadedFiles(p =>
@@ -1743,8 +1764,8 @@ export function FileUploadAnalysis({ userType, userId, onAnalysisComplete }: Pro
       const formData = new FormData();
       formData.append("file", f.file);
 
+      // ✅ FIX: Remove the 'headers' object here. Let Axios handle it.
       const uploadRes = await api.post("/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (e: any) => {
           const percent = Math.round((e.loaded * 100) / (e.total || 1));
           setUploadedFiles(p =>
@@ -1753,7 +1774,15 @@ export function FileUploadAnalysis({ userType, userId, onAnalysisComplete }: Pro
         },
       });
 
-      const documentId = uploadRes.data.document_id;
+      // ... rest of your code ...
+
+
+
+
+
+  
+
+  const documentId = uploadRes.data.document_id;
 
       setUploadedFiles(p =>
         p.map(x =>

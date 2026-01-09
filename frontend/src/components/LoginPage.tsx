@@ -2392,7 +2392,6 @@
 
 
 
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -2524,7 +2523,7 @@ export function LoginPage() {
           {/* RIGHT: LOGIN & LINKS - Flex Column with Weighted Children */}
           <div className="md:col-span-1 flex flex-col gap-3 h-full">
 
-            {/* 1. LOGIN BOX - FIXED HEIGHT WITH PX */}
+            {/* 1. LOGIN BOX */}
             <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl relative overflow-hidden border border-white/50 flex-[3] flex flex-col justify-center min-h-[350px]">
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
               
@@ -2796,4 +2795,3 @@ export function LoginPage() {
     </div>
   );
 }
-

@@ -334,6 +334,7 @@ async def login(
         secure=True,           # 🔁 True in production (HTTPS)
         samesite="none",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        path="/",
     )
 
     return {

@@ -2393,12 +2393,6 @@
 
 
 
-
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -2408,24 +2402,12 @@ import { Eye, EyeOff, User, Lock, ChevronLeft, ChevronRight, ExternalLink, MapPi
    1. INTERNAL UI COMPONENTS
    ======================================================================== */
 
-// --- Orientation Slider (Updated to fill height) ---
+// --- Orientation Slider ---
 const OrientationSlider = () => {
   const slides = [
-    {
-      id: 1,
-      image: "/orientation/orientationday-2025-1920.webp",
-      text: "Welcome to Orientation 2025"
-    },
-    {
-      id: 2,
-      image: "/orientation/graduation1-1920.webp",  
-      text: "Celebrating Excellence - Graduation Day"
-    },
-    {
-      id: 3,
-      image: "/orientation/orientation1-2025-1920.webp",
-      text: "A New Chapter Begins"
-    }
+    { id: 1, image: "/orientation/orientationday-2025-1920.webp", text: "Welcome to Orientation 2025" },
+    { id: 2, image: "/orientation/graduation1-1920.webp", text: "Celebrating Excellence - Graduation Day" },
+    { id: 3, image: "/orientation/orientation1-2025-1920.webp", text: "A New Chapter Begins" }
   ];
 
   const [current, setCurrent] = useState(0);
@@ -2441,49 +2423,29 @@ const OrientationSlider = () => {
   const prevSlide = () => setCurrent(current === 0 ? slides.length - 1 : current - 1);
 
   return (
-   // CHANGED: Removed fixed height (h-[700px]), added h-full to match right column height
    <div className="relative w-full h-full min-h-[600px] overflow-hidden rounded-3xl shadow-2xl group border border-white/10 bg-black/20 backdrop-blur-sm">
-
-      <div 
-        className="flex transition-transform duration-700 ease-in-out h-full" 
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
+      <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${current * 100}%)` }}>
         {slides.map((slide) => (
           <div key={slide.id} className="min-w-full h-full relative">
-            <img 
-                src={slide.image} 
-                alt={slide.text} 
-                className="w-full h-full object-cover"
-                onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1920&auto=format&fit=crop"; }}
-            />
-            {/* Gradient Overlay for Text Readability */}
+            <img src={slide.image} alt={slide.text} className="w-full h-full object-cover"
+                onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1920&auto=format&fit=crop"; }} />
             <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 md:p-10 text-white text-center">
               <h3 className="text-xl md:text-3xl font-bold tracking-wide drop-shadow-lg font-sans">{slide.text}</h3>
             </div>
           </div>
         ))}
       </div>
-      
-      <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 backdrop-blur-md p-3 rounded-full text-white transition-all z-10 border border-white/10 hover:scale-110">
-        <ChevronLeft size={24} />
-      </button>
-      <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 backdrop-blur-md p-3 rounded-full text-white transition-all z-10 border border-white/10 hover:scale-110">
-        <ChevronRight size={24} />
-      </button>
+      <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 backdrop-blur-md p-3 rounded-full text-white transition-all z-10 border border-white/10 hover:scale-110"><ChevronLeft size={24} /></button>
+      <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/60 backdrop-blur-md p-3 rounded-full text-white transition-all z-10 border border-white/10 hover:scale-110"><ChevronRight size={24} /></button>
     </div>
   );
 };
 
-// --- Delegate Card (Clean White Style) ---
+// --- Delegate Card ---
 const DelegateCard = ({ name, role, img }: { name: string, role: string, img: string }) => (
   <div className="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center p-5 border border-slate-100 h-full">
     <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 shrink-0">
-      <img 
-        src={img} 
-        alt={name} 
-        className="w-full h-full object-cover"
-        onError={(e) => { e.currentTarget.src = "https://randomuser.me/api/portraits/men/1.jpg"; }} 
-      />
+      <img src={img} alt={name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = "https://randomuser.me/api/portraits/men/1.jpg"; }} />
     </div>
     <div className="text-center w-full flex flex-col justify-between flex-1">
       <h4 className="text-slate-800 font-bold text-sm md:text-base mb-1">{name}</h4>
@@ -2492,15 +2454,11 @@ const DelegateCard = ({ name, role, img }: { name: string, role: string, img: st
   </div>
 );
 
-// --- Info Box Component (High Contrast) ---
+// --- Info Box Component ---
 const InfoBox = ({ title, children }: { title: string, children: React.ReactNode }) => (
   <div className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden flex flex-col shadow-xl hover:shadow-2xl transition-all duration-300 h-full border border-white/20">
-    <div className="bg-gradient-to-r from-slate-900 to-indigo-900 text-white font-bold py-3 px-4 text-center uppercase tracking-wider text-sm shadow-md">
-      {title}
-    </div>
-    <div className="p-5 text-sm text-slate-600 flex-1 leading-relaxed font-medium">
-      {children}
-    </div>
+    <div className="bg-gradient-to-r from-slate-900 to-indigo-900 text-white font-bold py-3 px-4 text-center uppercase tracking-wider text-sm shadow-md">{title}</div>
+    <div className="p-5 text-sm text-slate-600 flex-1 leading-relaxed font-medium">{children}</div>
   </div>
 );
 
@@ -2533,22 +2491,14 @@ export function LoginPage() {
   };
 
   return (
-    // MAIN BACKGROUND GRADIENT
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-rose-900 flex flex-col font-sans overflow-x-hidden pb-32 md:pb-24 text-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-rose-900 flex flex-col font-sans overflow-x-hidden pb-20 text-slate-100">
       
-      {/* --- HERO HEADER (Glassmorphism) --- */}
+      {/* --- HERO HEADER --- */}
       <div className="w-full bg-black/20 backdrop-blur-md border-b border-white/10 shadow-lg z-30 sticky top-0">
         <div className="w-full max-w-full mx-auto px-4 py-2 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-          {/* Logo */}
           <div className="bg-white/90 p-1 rounded-xl shadow-lg shadow-white/10">
-            <img 
-              src="/assets/icon.jpg" 
-              alt="TKREC Logo" 
-              className="w-12 h-12 md:w-14 md:h-14 object-contain shrink-0"
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            />
+            <img src="/assets/icon.jpg" alt="TKREC Logo" className="w-12 h-12 md:w-14 md:h-14 object-contain shrink-0" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
           </div>
-          {/* Text Content */}
           <div className="flex flex-col items-center text-center">
             <h1 className="text-xl md:text-2xl font-extrabold text-white tracking-wide uppercase leading-tight mb-0.5 drop-shadow-md">
               Teegala Krishna Reddy Engineering College
@@ -2562,41 +2512,33 @@ export function LoginPage() {
       </div>
 
       {/* --- TOP SECTION (SLIDER + LOGIN) --- */}
-      {/* Reduced padding to bring content higher */}
       <div className="w-full p-4 md:px-8 md:py-4">
-        {/* GRID: Items Stretch to ensure equal height */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-4 items-stretch">
+        {/* GRID: Height calculated to fit "Default View" */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-4 items-stretch h-full">
           
-          {/* LEFT: ORIENTATION SLIDER (Fills height of right column) */}
+          {/* LEFT: ORIENTATION SLIDER */}
           <div className="md:col-span-3 h-full">
             <OrientationSlider />
           </div>
 
-          {/* RIGHT: LOGIN & LINKS - Compact Spacing */}
-          <div className="md:col-span-1 flex flex-col gap-3 h-full justify-between">
+          {/* RIGHT: LOGIN & LINKS - Flex Column with Weighted Children */}
+          <div className="md:col-span-1 flex flex-col gap-3 h-full">
 
-            {/* LOGIN BOX - Compacted Padding */}
-            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl h-[395] relative overflow-hidden flex flex-col justify-center border border-white/50  flex-shrink-0">
-              
+            {/* 1. LOGIN BOX - FIXED HEIGHT WITH PX */}
+            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-5 shadow-2xl relative overflow-hidden border border-white/50 flex-[3] flex flex-col justify-center min-h-[350px]">
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
               
               <h2 className="text-lg font-black text-center mb-4 tracking-wider text-slate-800 flex items-center justify-center gap-2">
                  <Lock className="text-indigo-600" size={18}/>
-                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                    PLAGIARISM LOGIN
-                 </span>
+                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">SECURE LOGIN</span>
               </h2>
               
               <form onSubmit={handleLogin} className="space-y-3 relative z-10">
-
                 <div>
                   <label className="block text-[9px] uppercase text-slate-500 mb-1 font-bold tracking-widest">Select Role</label>
                   <div className="relative">
-                    <select 
-                      value={role} 
-                      onChange={(e) => setRole(e.target.value as any)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-700 font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xs appearance-none cursor-pointer hover:bg-slate-100 shadow-inner"
-                    >
+                    <select value={role} onChange={(e) => setRole(e.target.value as any)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-700 font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xs appearance-none cursor-pointer hover:bg-slate-100 shadow-inner">
                       <option value="admin">STAFF / ADMIN</option>
                       <option value="student">STUDENT</option>
                     </select>
@@ -2608,14 +2550,8 @@ export function LoginPage() {
                   <label className="block text-[9px] uppercase text-slate-500 mb-1 font-bold tracking-widest">User ID</label>
                   <div className="relative group">
                     <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
-                    <input
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Enter ID"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 pl-9 text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xs placeholder-slate-400 shadow-inner"
-                      required
-                    />
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter ID"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 pl-9 text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xs placeholder-slate-400 shadow-inner" required />
                   </div>
                 </div>
 
@@ -2623,67 +2559,40 @@ export function LoginPage() {
                   <label className="block text-[9px] uppercase text-slate-500 mb-1 font-bold tracking-widest">Password</label>
                   <div className="relative group">
                     <Lock className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Enter Password"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 pl-9 pr-9 text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xs placeholder-slate-400 shadow-inner"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-2.5 text-slate-400 hover:text-indigo-600 transition-colors"
-                    >
+                    <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 pl-9 pr-9 text-slate-800 font-medium focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-xs placeholder-slate-400 shadow-inner" required />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-2.5 text-slate-400 hover:text-indigo-600 transition-colors">
                       {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
 
-                {error && (
-                  <div className="bg-red-50 border border-red-100 text-red-600 text-[10px] p-2 rounded-lg text-center font-bold animate-pulse flex items-center justify-center gap-2">
-                    <span>⚠️</span> {error}
-                  </div>
-                )}
+                {error && <div className="bg-red-50 border border-red-100 text-red-600 text-[10px] p-2 rounded-lg text-center font-bold animate-pulse flex items-center justify-center gap-2"><span>⚠️</span> {error}</div>}
 
-                <button 
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-slate-900 to-indigo-900 hover:from-indigo-600 hover:to-purple-600 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition-all shadow-lg hover:shadow-indigo-500/30 mt-1 text-xs"
-                >
+                <button type="submit" disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-slate-900 to-indigo-900 hover:from-indigo-600 hover:to-purple-600 text-white font-bold py-3 rounded-xl uppercase tracking-wider transition-all shadow-lg hover:shadow-indigo-500/30 mt-1 text-xs">
                   {isSubmitting ? 'Verifying...' : 'Access Dashboard'}
                 </button>
               </form>
             </div>
 
-            {/* QUICK LINKS - Compact */}
-            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 h-[145] shadow-xl border border-white/50 flex-shrink-0">
+            {/* 2. QUICK LINKS - FIXED HEIGHT WITH PX */}
+            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-4 h-[145px] shadow-xl border border-white/50 flex-shrink-0 flex flex-col justify-center">
               <h3 className="text-slate-800 font-bold mb-2 text-[10px] uppercase tracking-wider flex items-center gap-2">
                 Quick Access <ArrowRight size={12} className="text-indigo-500" />
               </h3>
               <div className="space-y-2">
-                <a 
-                  href="https://tkrec.in/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full bg-slate-50 hover:bg-indigo-50 text-indigo-700 hover:text-indigo-800 border border-slate-200 hover:border-indigo-200 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all group shadow-sm"
-                >
+                <a href="https://tkrec.in/" target="_blank" rel="noopener noreferrer" className="w-full bg-slate-50 hover:bg-indigo-50 text-indigo-700 hover:text-indigo-800 border border-slate-200 hover:border-indigo-200 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all group shadow-sm">
                   <ExternalLink size={14} className="text-indigo-500" /> Management Portal
                 </a>
-                <a 
-                  href="https://tkrecautonomous.org/Login.aspx" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full bg-slate-50 hover:bg-indigo-50 text-indigo-700 hover:text-indigo-800 border border-slate-200 hover:border-indigo-200 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all group shadow-sm"
-                >
+                <a href="https://tkrecautonomous.org/Login.aspx" target="_blank" rel="noopener noreferrer" className="w-full bg-slate-50 hover:bg-indigo-50 text-indigo-700 hover:text-indigo-800 border border-slate-200 hover:border-indigo-200 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all group shadow-sm">
                   <ExternalLink size={14} className="text-indigo-500" /> BET Examination Portal
                 </a>
               </div>
             </div>
 
-            {/* ACCREDITATIONS - Compact */}
-            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-3 shadow-xl border h-[135] border-white/50 flex-shrink-0">
+            {/* 3. ACCREDITATIONS - FIXED HEIGHT WITH PX */}
+            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-3 shadow-xl border h-[135px] border-white/50 flex-shrink-0 flex flex-col justify-center">
               <h3 className="text-slate-500 font-bold mb-2 text-[9px] uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-1">
                 <span className="text-yellow-500">★</span> Accredited & Recognized By
               </h3>
@@ -2700,7 +2609,7 @@ export function LoginPage() {
         </div>
       </div>
 
-      {/* --- NOTIFICATIONS MARQUEE (Dark Glass) --- */}
+      {/* --- NOTIFICATIONS MARQUEE --- */}
       <div className="w-full pb-6">
         <div className="w-full px-4 md:px-8">
           <div className="w-full bg-black/20 backdrop-blur-md rounded-2xl flex relative overflow-hidden shadow-xl z-20 border border-white/10">
@@ -2842,7 +2751,7 @@ export function LoginPage() {
                   href="https://maps.google.com/?q=TKREC+Hyderabad" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="mt-4 rounded-2xl overflow-hidden flex-1 h-[250] relative group cursor-pointer block border border-white/20 shadow-lg"
+                  className="mt-4 rounded-2xl overflow-hidden flex-1 min-h-[250px] relative group cursor-pointer block border border-white/20 shadow-lg"
                 >
                   <img 
                     src="/assets/Meerpet.webp" 
@@ -2887,9 +2796,4 @@ export function LoginPage() {
     </div>
   );
 }
-
-
-
-
-
 

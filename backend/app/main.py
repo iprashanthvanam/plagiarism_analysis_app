@@ -563,3 +563,45 @@ async def view_file(document_id: int, user=Depends(get_current_user)):
         filename=doc["file_name"],
         media_type=doc["content_type"],
     )
+
+
+
+
+
+
+
+
+
+# ============================================================
+# ⚡️ SERVE REACT FRONTEND (Production Mode)
+# ============================================================
+
+# 1. Mount the "assets" folder (JS/CSS)
+#    GitHub Actions will move the 'dist/assets' or 'build/assets' here.
+#    We check both locations just in case.
+assets_path = "app/build/assets"
+if not os.path.isdir(assets_path):
+    # Fallback if your local build structure is different
+    if os.path.isdir("build/assets"):
+        assets_path = "build/assets"
+
+if os.path.isdir(assets_path):
+    app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+
+# 2. Catch-all route: Requests that are NOT api/ go to index.html
+@app.get("/{full_path:path}")
+async def serve_react_app(full_path: str):
+    # Determine where the build folder is
+    base_dir = "app/build" if os.path.isdir("app/build") else "build"
+    
+    # Check if a specific file exists (like favicon.svg, robots.txt)
+    file_path = f"{base_dir}/{full_path}"
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return FileResponse(file_path)
+    
+    # Otherwise, return index.html (React Router handles the rest)
+    index_path = f"{base_dir}/index.html"
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    
+    return {"error": "Frontend build not found. Did you run the GitHub Action?"}

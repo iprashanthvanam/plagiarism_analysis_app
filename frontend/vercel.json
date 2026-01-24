@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)", 
-      "destination": "https://plagiarism-analysis-app.onrender.com"
+      "source": "/api/:path*",
+      "destination": "https://plagiarism-analysis-app.onrender.com*"
     }
   ]
 }

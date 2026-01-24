@@ -265,8 +265,12 @@ def require_role(required_role: str):
 # ===============================
 # ROOT
 # ===============================
-@app.get("/")
-async def root():
+# @app.get("/")
+# async def root():
+#     return {"status": "Plagiarism Analysis API running"}
+
+@app.get("/api/health") # Changed from root / to avoid conflict with React
+async def health_check():
     return {"status": "Plagiarism Analysis API running"}
 
 # ===============================

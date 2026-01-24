@@ -1,0 +1,62 @@
+name: Build and Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main  # Set this to your default branch name
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Download Code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js (For Frontend)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # 3. Build Frontend
+      - name: Build React App
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          # This creates a 'dist' or 'build' folder in frontend/
+      
+      # 4. Move Frontend Build to Backend Folder
+      #    We move frontend/build -> backend/app/build so Python can see it
+      - name: Move Build to Backend
+        run: |
+          mkdir -p backend/app/build
+          # Copy contents of frontend/build (or dist) to backend/app/build
+          cp -r frontend/build/* backend/app/build/ || cp -r frontend/dist/* backend/app/build/
+
+      # 5. Setup Python (For Backend)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 6. Prepare Backend Artifact
+      #    We install dependencies just to check, then zip everything in 'backend'
+      - name: Zip Application
+        run: |
+          cd backend
+          # We don't need to install pip modules here for the zip, Azure does that.
+          # We just zip the 'backend' folder content (which now includes the React build!)
+          zip -r ../app.zip .
+
+      # 7. Deploy to Azure
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'plagiarismanalyser'  # <--- REPLACE THIS
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: app.zip

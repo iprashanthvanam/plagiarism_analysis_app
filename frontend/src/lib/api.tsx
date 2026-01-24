@@ -2,9 +2,9 @@ import axios from "axios";
 
 const api = axios.create({
   // 👇 REPLACE THIS LINE
-  baseURL: "https://plagiarism-analysis-app.onrender.com", 
+  // baseURL: "https://plagiarism-analysis-app.onrender.com", 
   // with this:
-  // baseURL: "/api",
+  baseURL: "/api",
 
   withCredentials: true, // ✅ SEND COOKIES
 });

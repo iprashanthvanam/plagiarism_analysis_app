@@ -1,9 +1,10 @@
-# --- Core API ---
+# This URL MUST be the first line
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- Core ---
 fastapi>=0.110
 starlette>=0.36
 uvicorn>=0.27
-
-# --- Async / Validation ---
 pydantic>=2.6
 anyio>=4
 
@@ -12,14 +13,14 @@ asyncpg==0.29.0
 sqlalchemy==2.0.23
 psycopg2-binary==2.9.9
 
-# --- Auth / Security ---
+# --- Auth ---
 passlib==1.7.4
 bcrypt==4.0.1
 python-jose[cryptography]==3.3.0
 python-dotenv==1.0.0
 python-multipart==0.0.9
 
-# --- File handling ---
+# --- Files ---
 aiofiles==23.2.1
 pillow
 pdfplumber
@@ -29,26 +30,24 @@ pandas
 openpyxl
 xlrd>=2.0.1
 
-# --- Scraping / Web ---
+# --- Web ---
 requests
 beautifulsoup4
 newspaper3k
 warcio
 
-# --- ML / NLP ---
+# --- ML ---
 scikit-learn
 nltk
 
-# ✅ THE FIX: Standard PyTorch + Pinned NumPy
-# We remove '+cpu' to ensure Azure can download it successfully.
-torch
-torchvision
-transformers
+# ✅ THE CRITICAL FIXES
+# 1. Force CPU version (Small ~200MB)
+torch==2.2.2+cpu
+torchvision==0.17.2+cpu
 
-# We keep this to prevent the "NumPy 2.0" crash you saw earlier
+# 2. Prevent the "NumPy 2.0" crash
 numpy<2.0.0
 
-# --- Gemini OCR ---
+transformers
 google-genai
-
 slowapi

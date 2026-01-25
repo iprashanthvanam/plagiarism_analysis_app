@@ -46,7 +46,8 @@
 
 
 
-
+# ✅ ADD THIS AT THE VERY TOP to tell Azure where to find the small CPU versions
+--extra-index-url https://download.pytorch.org/whl/cpu
 
 # --- Core API ---
 fastapi>=0.110
@@ -88,7 +89,11 @@ warcio
 # --- ML / NLP ---
 scikit-learn
 nltk
-torch
+
+# ✅ MODIFIED SECTION: CPU-Only PyTorch (Saves ~1.5 GB)
+# We pin specific +cpu versions to prevent downloading the huge GPU files
+torch==2.2.1+cpu
+torchvision==0.17.1+cpu
 transformers
 
 # --- Gemini OCR ---

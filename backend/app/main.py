@@ -1,3 +1,12 @@
+import sys
+import os
+
+# ⚡️ FIX: Remove Azure's outdated 'agents' path causing the typing_extensions crash
+# This forces Python to look in your virtual environment first.
+sys.path = [p for p in sys.path if "agents/python" not in p]
+
+
+
 import os
 import uuid
 import shutil

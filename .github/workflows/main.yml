@@ -1,0 +1,65 @@
+name: Deploy Monolith to AWS Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout Code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js (To build the Frontend)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      # 3. Build React Frontend
+      - name: Build React App
+        run: |
+          cd frontend
+          npm install
+          # CI=false prevents warnings from failing the build
+          CI=false npm run build
+
+      # 4. Move Build to Backend
+      #    This puts the UI inside the Python folder so they can be zipped together
+      - name: Move Build to Backend
+        run: |
+          mkdir -p backend/app/build
+          # Copy contents of frontend/build (or dist) into backend/app/build
+          cp -r frontend/build/* backend/app/build/ || cp -r frontend/dist/* backend/app/build/
+
+      # 5. Create Procfile (CRITICAL FOR AWS)
+      #    AWS needs this file to know how to start the server
+      - name: Create Procfile for AWS
+        run: |
+          echo "web: gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app" > backend/Procfile
+
+      # 6. Zip the Application
+      - name: Generate Deployment Package
+        run: |
+          cd backend
+          # Zip everything in the backend folder (which now includes the Frontend build)
+          zip -r ../deploy.zip .
+
+      # 7. Deploy to AWS Elastic Beanstalk
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }} # Optional: Only if using temporary credentials
+          region: ${{ secrets.AWS_REGION }} # e.g., us-east-1 or ap-south-1
+          application_name: 'plagiarismanalyser' # <--- MATCH YOUR AWS APP NAME EXACTLY
+          environment_name: 'Plagiarismanalyser-env' # <--- MATCH YOUR AWS ENV NAME EXACTLY
+          version_label: "ver-${{ github.sha }}"
+          deployment_package: deploy.zip

@@ -1,18 +1,25 @@
+import os
 import sys
-import os
-
-# ⚡️ FIX: Remove Azure's outdated 'agents' path causing the typing_extensions crash
-# This forces Python to look in your virtual environment first.
-sys.path = [p for p in sys.path if "agents/python" not in p]
-
-
-
-import os
 import uuid
 import shutil
 import asyncio
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Any
+
+
+# # ⚡️ FIX: Remove Azure's outdated 'agents' path causing the typing_extensions crash
+# # This forces Python to look in your virtual environment first.
+# sys.path = [p for p in sys.path if "agents/python" not in p]
+
+sys.path = [p for p in sys.path if "agents/python" not in p]
+
+
+# 2. FORCE UNLOAD the broken library if Azure already loaded it
+# This forces Python to reload it from your virtual environment
+if "typing_extensions" in sys.modules:
+    del sys.modules["typing_extensions"]
+
+
 
 from fastapi import (
     FastAPI,

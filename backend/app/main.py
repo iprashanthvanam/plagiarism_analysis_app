@@ -66,7 +66,9 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
-STORAGE_DIR = os.getenv("STORAGE_DIR", "/tmp/plagiarism_files")
+# ✅ FIX: Use Azure's persistent '/home' directory by default
+STORAGE_DIR = os.getenv("STORAGE_DIR", "/home/site/wwwroot/storage")
+
 MIN_TEXT_LENGTH = int(os.getenv("MIN_ANALYSIS_TEXT_LENGTH", 20))
 
 if not SECRET_KEY:

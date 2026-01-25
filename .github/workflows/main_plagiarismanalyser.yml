@@ -42,25 +42,26 @@ jobs:
           python-version: '3.12'
 
       # 5. Build Backend (Install Dependencies to check errors)
+      #    We install here just to check for errors, BUT we will NOT upload this folder.
       - name: Install Python Dependencies
         run: |
-          cd backend  # <--- THIS WAS THE MISSING PART
+          cd backend
           python -m venv antenv
           source antenv/bin/activate
           pip install -r requirements.txt
 
       # 6. Zip Everything (Backend + React Build)
+      #    ⚠️ CRITICAL FIX: We exclude 'antenv' to keep the file small (~50-100MB instead of 8GB)
       - name: Zip artifact for deployment
         run: |
           cd backend
-          # Zip everything in the backend folder (including app, requirements.txt, and the new build folder)
-          zip -r ../python-app.zip .
+          zip -r ../python-app.zip . -x "antenv/*" "__pycache__/*"
 
       # 7. Deploy to Azure
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'plagiarismanalyser'  # ✅ Matches your Azure App Name
+          app-name: 'plagiarismanalyser'
           slot-name: 'Production'
           package: python-app.zip
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}

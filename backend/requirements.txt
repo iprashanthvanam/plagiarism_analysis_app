@@ -1,54 +1,3 @@
-
-
-# fastapi==0.103.2
-# uvicorn==0.23.2
-
-# asyncpg==0.29.0
-# sqlalchemy==2.0.23
-# psycopg2-binary==2.9.9
-
-# passlib==1.7.4
-# bcrypt==4.0.1
-# python-jose[cryptography]==3.3.0
-# python-dotenv==1.0.0
-# python-multipart==0.0.9
-
-# aiofiles==23.2.1
-# pydantic==1.10.26
-
-# requests
-# beautifulsoup4
-# newspaper3k
-# warcio
-
-# pandas
-# openpyxl
-# xlrd==1.2.0
-# python-docx
-# python-pptx
-# pdfplumber
-# pillow
-
-# scikit-learn
-# nltk
-# torch
-# transformers
-
-# google-genai
-
-# six
-
-
-
-
-
-
-
-
-
-# ✅ ADD THIS AT THE VERY TOP to tell Azure where to find the small CPU versions
---extra-index-url https://download.pytorch.org/whl/cpu
-
 # --- Core API ---
 fastapi>=0.110
 starlette>=0.36
@@ -90,13 +39,14 @@ warcio
 scikit-learn
 nltk
 
-# ✅ MODIFIED SECTION: CPU-Only PyTorch (Saves ~1.5 GB)
-# We pin specific +cpu versions to prevent downloading the huge GPU files
-torch==2.2.1+cpu
-numpy<2.0.0
-
-torchvision==0.17.1+cpu
+# ✅ THE FIX: Standard PyTorch + Pinned NumPy
+# We remove '+cpu' to ensure Azure can download it successfully.
+torch
+torchvision
 transformers
+
+# We keep this to prevent the "NumPy 2.0" crash you saw earlier
+numpy<2.0.0
 
 # --- Gemini OCR ---
 google-genai

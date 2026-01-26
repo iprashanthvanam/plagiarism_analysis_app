@@ -1,10 +1,40 @@
 import os
 import sys
+import nltk
+
+# ✅ Azure-safe NLTK data path
+NLTK_DATA_DIR = "/home/nltk_data"
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
+
+nltk.data.path.append(NLTK_DATA_DIR)
+
+def ensure_nltk():
+    try:
+        nltk.data.find("tokenizers/punkt")
+        nltk.data.find("corpora/stopwords")
+    except LookupError:
+        nltk.download("punkt", download_dir=NLTK_DATA_DIR)
+        nltk.download("stopwords", download_dir=NLTK_DATA_DIR)
+
+ensure_nltk()
+
+
 import uuid
 import shutil
 import asyncio
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Any
+import logging
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+)
+
+logger = logging.getLogger("analysis")
+
+
 
 
 # # ⚡️ FIX: Remove Azure's outdated 'agents' path causing the typing_extensions crash
@@ -293,12 +323,28 @@ async def analyze(request: Request, document_id: int, user=Depends(get_current_u
         *[asyncio.to_thread(extract_text_from_url, u) for u in urls],
         return_exceptions=True,
     )
-    web_texts = [p for p in pages if isinstance(p, str)]
+    # web_texts = [p for p in pages if isinstance(p, str)]
+    web_texts = [p for p in pages if isinstance(p, str) and len(p) > 100]
     google_score = local_plagiarism_score(text, web_texts)
 
     # COMMONCRAWL & AI
-    commoncrawl_score = local_plagiarism_score_with_commoncrawl(text)
-    ai_score = min(100.0, max(0.0, detect_ai_content(text)))
+    # commoncrawl_score = local_plagiarism_score_with_commoncrawl(text)
+    # ai_score = min(100.0, max(0.0, detect_ai_content(text)))
+
+    try:
+        commoncrawl_score = local_plagiarism_score_with_commoncrawl(text)
+    except Exception as e:
+        print("Commoncrawl failed:", e)
+        commoncrawl_score = 0.0
+
+    try:
+        ai_score = min(100.0, max(0.0, detect_ai_content(text)))
+    except Exception as e:
+        # print("AI detection failed:", e)
+        
+        logger.exception("AI detection failed")
+        ai_score = 0.0
+
 
     web_score = max(google_score, commoncrawl_score, local_score)
     human_score = max(0.0, 100.0 - web_score)

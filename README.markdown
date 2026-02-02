@@ -1,78 +1,127 @@
-🐘 PostgreSQL — Access & Reset
-🔑 Enter PostgreSQL Shell
+# Plagiarism Analysis Application
+
+**Full Project Documentation & README**  
+**Last updated:** May 2025  
+**Author:** Prashanth  
+**Location:** India  
+
+---
+
+## Project Overview
+
+The **Plagiarism Analysis Application** is a full-stack web platform designed to detect, analyze, and manage plagiarism in academic and professional documents. It supports multiple file formats, role-based access, secure authentication, and AI-assisted analysis workflows.
+
+The application allows users to:
+
+- Upload documents for plagiarism analysis
+- View analysis results and similarity insights
+- Manage users with admin & student roles
+- Reset, reseed, and maintain database consistency
+- Support OCR-based analysis for scanned documents
+- Maintain a clean and predictable development environment
+
+The project demonstrates a **production-grade full-stack system** using modern backend and frontend technologies.
+
+---
+
+## Key Features
+
+- **Role-Based Access:** Admin & Student authentication
+- **Secure Login:** JWT-based authentication
+- **Document Upload:** Multiple supported formats
+- **Plagiarism Analysis:** AI-assisted text comparison
+- **Database Seeding:** One-command fresh setup
+- **Safe Resets:** Truncate data without schema loss
+- **Frontend Dashboard:** Clean UI for uploads & results
+- **Predictable Dev Flow:** Clean restart & reseed process
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Purpose |
+|------|-----------|---------|
+| **Backend** | FastAPI | REST APIs, authentication, analysis |
+| **Frontend** | React | User interface & dashboards |
+| **Database** | PostgreSQL | User, document & analysis storage |
+| **ORM** | SQLAlchemy | Database interaction |
+| **Auth** | JWT | Secure role-based access |
+| **AI / OCR** | Gemini API | Text extraction & analysis |
+| **Server** | Uvicorn | ASGI backend server |
+
+---
+
+
+```bash
+
+### 🔑 Enter PostgreSQL Shell:
 psql -U postgres
 
 If your database name is plagiarism_db:
-
 \c plagiarism_db;
 
-🧹 Reset Users, Documents & Analysis Data (Safe Reset)
-
-Use this when you want to:
-
-Change admin/student passwords
-
-Re-seed fresh users
-
-Remove all uploaded documents & analysis results
-
-⚠️ This does NOT delete schema, only data.
 TRUNCATE TABLE analysis_results CASCADE;
 TRUNCATE TABLE documents CASCADE;
 TRUNCATE TABLE users CASCADE;
 
-✔ Passwords
-✔ Tokens
-✔ Uploaded files (DB references)
-✔ Analysis results
+✔ What gets reset
+Passwords
+JWT tokens
+Uploaded file references
+Analysis results
 
-❌ Tables remain intact
-❌ No migrations required
+❌ What stays intact
+Table structure
+Schema
+Migrations
 
-🌱 Database Seeding (seed.py)
-Purpose
+---
 
-seed.py creates default admin and student users with known credentials for testing and demo.
+Database Seeding (seed.py)
+Purpose:seed.py creates default admin and student users with known credentials for testing, demos, and development.
 
-Example Seeded Accounts
-Role Username Password
-Admin admin-001 admin123
-Admin admin-002 admin123
-Student student-001 student123
-Student student-002 student123
-▶ Run Seeding Script
+## Example Seeded Accounts
+
+| Role    | Username      | Password   |
+|---------|---------------|------------|
+| Admin   | admin-001     | admin123   |
+| Admin   | admin-002     | admin123   |
+| Student | student-001   | student123 |
+| Student | student-002   | student123 |
+
+---
+
+▶ Run Seeding Script:
 cd backend
 python seed.py
 
-Expected output:
-
+▶ Expected Output:
 ✔ Admin users created
 ✔ Student users created
 ✔ Database seeding completed
 
-You can safely run seed.py after truncating tables.
+---
 
-🔐 Changing Passwords (Recommended Method)
-
-Truncate users & documents (see SQL above)
-
-Modify passwords inside seed.py
+🔐 Changing Passwords (Recommended Method):
+Truncate users & documents (SQL above)
+Modify credentials inside seed.py
 
 Re-run:
-
 python seed.py
 
 ✔ Passwords are hashed automatically
 ✔ No manual SQL updates required
 
-🐍 Backend Setup (FastAPI)
+---
+
+🐍 Backend Setup (FastAPI):
+
 1️⃣ Create & Activate Virtual Environment
 cd backend
 python3 -m venv venv
 source venv/bin/activate
 
-You should see:
-
+▶ You should see:
 (venv)
 
 2️⃣ Install Backend Dependencies
@@ -81,9 +130,11 @@ pip install -r requirements.txt
 3️⃣ Start Backend Server
 uvicorn main:app --reload
 
-Backend will run at:
 
+Backend runs at:
 http://127.0.0.1:8000
+
+---
 
 ⚛️ Frontend Setup (React)
 1️⃣ Navigate to Frontend
@@ -95,30 +146,26 @@ npm install
 3️⃣ Start Frontend Server
 npm start
 
-Frontend will run at:
+---
 
+Frontend runs at:
 http://localhost:3000
 
 🔁 Full Restart Flow (Recommended)
+Stop backend & frontend
+Truncate users, documents, analysis_results
+Run seed.py
+Start backend
+Start frontend
 
-When things feel inconsistent:
-
-1. Stop backend & frontend
-2. TRUNCATE users/documents/analysis_results
-3. Run seed.py
-4. Start backend
-5. Start frontend
-
-This guarantees a clean and predictable state.
+✔ Guarantees a clean, predictable state
+✔ Avoids token, cache & mismatch issues
 
 🧪 Supported File Types
-
 PDF (text & scanned)
-
 DOC / DOCX
-
 PPT / PPTX
-
+PDF (Imagescanner/Digital)
 TXT
-
 Images (OCR via Gemini)
+

@@ -1,13 +1,5 @@
 # Plagiarism Analysis Application
 
-**Full Project Documentation & README**  
-**Last updated:** May 2025  
-**Author:** Prashanth  
-**Location:** India  
-
----
-
-## Project Overview
 
 The **Plagiarism Analysis Application** is a full-stack web platform designed to detect, analyze, and manage plagiarism in academic and professional documents. It supports multiple file formats, role-based access, secure authentication, and AI-assisted analysis workflows.
 
@@ -52,35 +44,34 @@ The project demonstrates a **production-grade full-stack system** using modern b
 ---
 
 
-```bash
 
-### 🔑 Enter PostgreSQL Shell:
+
+### Enter PostgreSQL Shell:
+```
 psql -U postgres
+```
 
 If your database name is plagiarism_db:
+```
 \c plagiarism_db;
-
+```
+```
 TRUNCATE TABLE analysis_results CASCADE;
 TRUNCATE TABLE documents CASCADE;
 TRUNCATE TABLE users CASCADE;
+```
 
-✔ What gets reset
-Passwords
-JWT tokens
-Uploaded file references
-Analysis results
-
-❌ What stays intact
-Table structure
-Schema
-Migrations
 
 ---
 
-Database Seeding (seed.py)
-Purpose:seed.py creates default admin and student users with known credentials for testing, demos, and development.
+### Database Seeding (seed.py):
+Purpose: seed.py creates default admin and student users with known credentials for testing, demos, and development.
 
-## Example Seeded Accounts
+```
+python seed.py
+```
+
+## Example Seeded Accounts:
 
 | Role    | Username      | Password   |
 |---------|---------------|------------|
@@ -89,83 +80,102 @@ Purpose:seed.py creates default admin and student users with known credentials f
 | Student | student-001   | student123 |
 | Student | student-002   | student123 |
 
----
-
-▶ Run Seeding Script:
+Run Seeding Script:
+```
 cd backend
+```
+```
 python seed.py
+```
 
-▶ Expected Output:
-✔ Admin users created
-✔ Student users created
-✔ Database seeding completed
+Expected Output:
 
+- Admin users created
+- Student users created
+- Database seeding completed
 ---
 
-🔐 Changing Passwords (Recommended Method):
+### Changing Passwords (Recommended Method):
 Truncate users & documents (SQL above)
 Modify credentials inside seed.py
 
 Re-run:
+```
 python seed.py
+```
 
-✔ Passwords are hashed automatically
-✔ No manual SQL updates required
-
+- Passwords are hashed automatically
+- No manual SQL updates required
 ---
 
-🐍 Backend Setup (FastAPI):
-
-1️⃣ Create & Activate Virtual Environment
+### Backend Setup (FastAPI):
+Create & Activate Virtual Environment
+```
 cd backend
+```
+```
 python3 -m venv venv
+```
+```
 source venv/bin/activate
+```
 
-▶ You should see:
+### You should see:
+```
 (venv)
+```
+---
 
-2️⃣ Install Backend Dependencies
+### Install Backend Dependencies:
+```
 pip install -r requirements.txt
-
-3️⃣ Start Backend Server
+```
+---
+### Start Backend Server:
+```
 uvicorn main:app --reload
-
-
-Backend runs at:
+```
+### Backend runs at:
+```
 http://127.0.0.1:8000
-
+```
 ---
-
-⚛️ Frontend Setup (React)
-1️⃣ Navigate to Frontend
+### Frontend Setup (React):
+```
 cd frontend
+```
 
-2️⃣ Install Dependencies
+### Install Dependencies:
+```
 npm install
+```
 
-3️⃣ Start Frontend Server
+### Start Frontend Server:
+```
 npm start
+```
 
----
 
-Frontend runs at:
+### Frontend runs at:
+```
 http://localhost:3000
+```
+---
+### Full Restart Flow (Recommended):
+-Stop backend & frontend
+-Truncate users, documents, analysis_results
+-Run seed.py
+-Start backend
+-Start frontend
 
-🔁 Full Restart Flow (Recommended)
-Stop backend & frontend
-Truncate users, documents, analysis_results
-Run seed.py
-Start backend
-Start frontend
-
-✔ Guarantees a clean, predictable state
-✔ Avoids token, cache & mismatch issues
-
-🧪 Supported File Types
-PDF (text & scanned)
-DOC / DOCX
-PPT / PPTX
-PDF (Imagescanner/Digital)
-TXT
-Images (OCR via Gemini)
+- Guarantees a clean, predictable state
+- Avoids token, cache & mismatch issues
+---
+### 🧪 Supported File Types:
+- PDF (text & scanned)
+- DOC / DOCX
+- PPT / PPTX
+- PDF (Imagescanner/Digital)
+- TXT
+- Images (OCR via Gemini)
 

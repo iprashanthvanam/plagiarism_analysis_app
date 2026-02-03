@@ -43,6 +43,57 @@ The project demonstrates a **production-grade full-stack system** using modern b
 
 ---
 
+### Backend Setup (FastAPI):
+Create & Activate Virtual Environment
+```
+cd backend
+```
+```
+python3 -m venv venv
+```
+```
+source venv/bin/activate
+```
+
+### You should see:
+```
+(venv)
+```
+
+### Install Backend Dependencies:
+```
+pip install -r requirements.txt
+```
+### Start Backend Server:
+```
+uvicorn main:app --reload
+```
+### Backend runs at:
+```
+http://127.0.0.1:8000
+```
+---
+### Frontend Setup (React):
+```
+cd frontend
+```
+
+### Install Dependencies:
+```
+npm install
+```
+
+### Start Frontend Server:
+```
+npm start
+```
+
+
+### Frontend runs at:
+```
+http://localhost:3000
+```
+---
 
 
 
@@ -54,6 +105,11 @@ psql -U postgres
 If your database name is plagiarism_db:
 ```
 \c plagiarism_db;
+```
+
+Run:
+```
+psql -U username -d dbname -f schema.sql
 ```
 ```
 TRUNCATE TABLE analysis_results CASCADE;
@@ -108,59 +164,6 @@ python seed.py
 - No manual SQL updates required
 ---
 
-### Backend Setup (FastAPI):
-Create & Activate Virtual Environment
-```
-cd backend
-```
-```
-python3 -m venv venv
-```
-```
-source venv/bin/activate
-```
-
-### You should see:
-```
-(venv)
-```
----
-
-### Install Backend Dependencies:
-```
-pip install -r requirements.txt
-```
----
-### Start Backend Server:
-```
-uvicorn main:app --reload
-```
-### Backend runs at:
-```
-http://127.0.0.1:8000
-```
----
-### Frontend Setup (React):
-```
-cd frontend
-```
-
-### Install Dependencies:
-```
-npm install
-```
-
-### Start Frontend Server:
-```
-npm start
-```
-
-
-### Frontend runs at:
-```
-http://localhost:3000
-```
----
 ### Full Restart Flow (Recommended):
 -Stop backend & frontend
 -Truncate users, documents, analysis_results

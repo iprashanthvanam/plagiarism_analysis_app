@@ -1,103 +1,109 @@
 # Plagiarism Analysis Application
 
+Live Site  
+https://plagiarismanalyser-d8a6d0f9f2deczhn.southindia-01.azurewebsites.net/
 
-The **Plagiarism Analysis Application** is a full-stack web platform designed to detect, analyze, and manage plagiarism in academic and professional documents. It supports multiple file formats, role-based access, secure authentication, and AI-assisted analysis workflows.
+---
+
+## Project Overview
+
+The Plagiarism Analysis Application is a full-stack web platform designed to detect, analyze, and manage plagiarism in academic and professional documents. It supports multiple file formats, role-based access, secure authentication, and AI-assisted analysis workflows.
 
 The application allows users to:
 
 - Upload documents for plagiarism analysis
 - View analysis results and similarity insights
-- Manage users with admin & student roles
+- Manage users with admin and student roles
 - Reset, reseed, and maintain database consistency
-- Support OCR-based analysis for scanned documents
+- Perform OCR-based analysis for scanned documents
 - Maintain a clean and predictable development environment
 
-The project demonstrates a **production-grade full-stack system** using modern backend and frontend technologies.
+This project demonstrates a production-grade full-stack system using modern backend and frontend technologies.
 
 ---
 
 ## Key Features
 
-- **Role-Based Access:** Admin & Student authentication
-- **Secure Login:** JWT-based authentication
-- **Document Upload:** Multiple supported formats
-- **Plagiarism Analysis:** AI-assisted text comparison
-- **Database Seeding:** One-command fresh setup
-- **Safe Resets:** Truncate data without schema loss
-- **Frontend Dashboard:** Clean UI for uploads & results
-- **Predictable Dev Flow:** Clean restart & reseed process
+- Role-based access with admin and student roles
+- Secure JWT-based authentication
+- Multi-format document upload support
+- AI-assisted plagiarism analysis
+- Database seeding with default users
+- Safe database resets without schema loss
+- Frontend dashboards for uploads and results
+- Predictable development and restart workflow
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|------|-----------|---------|
-| **Backend** | FastAPI | REST APIs, authentication, analysis |
-| **Frontend** | React | User interface & dashboards |
-| **Database** | PostgreSQL | User, document & analysis storage |
-| **ORM** | SQLAlchemy | Database interaction |
-| **Auth** | JWT | Secure role-based access |
-| **AI / OCR** | Gemini API | Text extraction & analysis |
-| **Server** | Uvicorn | ASGI backend server |
+### Backend
+- FastAPI for REST APIs and authentication
+- SQLAlchemy for ORM and database interaction
+- PostgreSQL for data storage
+- JWT for secure authentication
+- Gemini API for OCR and text analysis
+- Uvicorn as ASGI server
+
+### Frontend
+- React for user interface and dashboards
 
 ---
 
-### Backend Setup (FastAPI):
-Create & Activate Virtual Environment
-```
+## Backend Setup
+
+Create and Activate Virtual Environment
+
+```bash
 cd backend
-```
-```
 python3 -m venv venv
-```
-```
 source venv/bin/activate
 ```
 
-### You should see:
+You should see:
 ```
 (venv)
 ```
 
-### Install Backend Dependencies:
+Install Backend Dependencies:
 ```
 pip install -r requirements.txt
 ```
-### Start Backend Server:
+Start Backend Server:
 ```
 uvicorn main:app --reload
 ```
-### Backend runs at:
+Backend runs at:
 ```
 http://127.0.0.1:8000
 ```
 ---
-### Frontend Setup (React):
+### Frontend Setup
+Navigate to Frontend Directory
 ```
 cd frontend
 ```
 
-### Install Dependencies:
+Install Dependencies:
 ```
 npm install
 ```
 
-### Start Frontend Server:
+Start Frontend Server:
 ```
 npm start
 ```
 
 
-### Frontend runs at:
+Frontend runs at:
 ```
 http://localhost:3000
 ```
 ---
 
 
-
-### Enter PostgreSQL Shell:
+### Database Setup
+Enter PostgreSQL Shell:
 ```
 psql -U postgres
 ```

@@ -320,3 +320,43 @@ python seed.py
 - Environment-based configuration
 - Production-ready CORS and security settings
 
+<h3 align="center">Landing & Login Page</h3>
+
+<p align="center">
+   <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236967149.jpg" width="60%" />
+  
+</p>
+<h3 align="center">Admin Dashboard</h3>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236964970.jpg" width="60%" />
+ 
+</p>
+<h3 align="center">Student Dashboard</h3>
+
+<p align="center">
+   <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236965169.jpg" width="60%" />
+ 
+</p>
+<h3 align="center">Student Analysis Dashboard</h3>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236965138.jpg" width="60%" />
+</p>
+<h3 align="center">Admin Analysis Dashboard</h3>
+
+<p align="center">
+   <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236965162.jpg" width="60%" />
+ 
+</p>
+<h3 align="center">Plagiarism Analysis Results</h3>
+
+<p align="center">
+   <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236964998.jpg" width="60%" />
+ 
+</p>
+<h3 align="center">Download Plagiarism Report</h3>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236967149.jpg" width="60%" />
+</p>

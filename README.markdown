@@ -355,8 +355,8 @@ python seed.py
    <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236964998.jpg" width="60%" />
  
 </p>
-<h3 align="center">Download Plagiarism Report</h3>
+<h3 align="center">Plagiarism Report</h3>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/1769236967149.jpg" width="60%" />
+  <img src="https://raw.githubusercontent.com/iprashanthvanam/plagiarism_analysis_app/main/images/Screenshot from 2026-02-09 11-45-15.png" width="60%" />
 </p>

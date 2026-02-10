@@ -1,6 +1,6 @@
 # Plagiarism Analysis Application
 
-Live Application  
+Live Preview  
 https://plagiarismanalyser-d8a6d0f9f2deczhn.southindia-01.azurewebsites.net/
 
 
